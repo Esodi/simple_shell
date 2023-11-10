@@ -1,13 +1,13 @@
 #include "project.h"
 
-char** tokenizeInput(char* _cmd, int* _l)
+char **tokenizeInput(char *_cmd, int *_l)
 {
 	int _i = 0;
-	char** _par = NULL;
-	char* _tkn = NULL;
+	char **_par = NULL;
+	char *_tkn = NULL;
 
 	*_l = wordsno(_cmd, ' ');
-	_par = (char**)malloc(sizeof(char*) * (*_l + 1));
+	_par = (char **)malloc(sizeof(char *) * (*_l + 1));
 	if (_par == NULL)
 	{
 		perror("malloc");
@@ -26,7 +26,7 @@ char** tokenizeInput(char* _cmd, int* _l)
 }
 
 
-void execute(char **_par, char *command, char** env, char* _cmd)
+void execute(char **_par, char *command, char **env, char *_cmd)
 {
 	if (_par == NULL)
 	{
@@ -45,10 +45,10 @@ void execute(char **_par, char *command, char** env, char* _cmd)
 }
 
 
-void searchAndExecute(char** _par, char** env, char* _cmd)
+void searchAndExecute(char **_par, char **env, char *_cmd)
 {
-	char* path = getenv("PATH");
-	char* token = strtok(path, ":");
+	char *path = getenv("PATH");
+	char *token = strtok(path, ":");
 	char cmd_path[1024];
 
 	while (token != NULL)
@@ -68,10 +68,10 @@ void searchAndExecute(char** _par, char** env, char* _cmd)
 }
 
 
-void handleCommand(char* _cmd, char** env)
+void handleCommand(char *_cmd, char **env)
 {
 	int  _l, status;
-	char** _par = tokenizeInput(_cmd, &_l);
+	char **_par = tokenizeInput(_cmd, &_l);
 	pid_t _child;
 
 	if (_par == NULL)
@@ -111,7 +111,7 @@ void handleCommand(char* _cmd, char** env)
 
 int main(void)
 {
-	char* _cmd = NULL;
+	char *_cmd = NULL;
 	size_t _len = 0;
 	ssize_t _r;
 

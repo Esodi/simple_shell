@@ -81,7 +81,7 @@ char *_strcpy(char *_dest, char *_src)
 		a++;
 	}
 	_dest[a] = 0;
-	
+
 	return (_dest);
 }
 
