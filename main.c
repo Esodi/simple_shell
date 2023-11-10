@@ -82,6 +82,10 @@ void handleCommand(char *_cmd, char **env)
 
 	if (_par[0] != NULL)
 	{
+		if (strcmp(_par[0], "exit") == 0)
+			exitShell(_cmd, _par);
+		else if (strcmp(_par[0], "env") == 0)
+			printEnvironment();
 		_child = fork();
 		if (_child == -1)
 		{
@@ -101,11 +105,8 @@ void handleCommand(char *_cmd, char **env)
 			exit(0);
 		}
 		else
-		{
 			waitpid(_child, &status, 0);
-		}
 	}
-
 	free(_par);
 }
 

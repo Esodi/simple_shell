@@ -16,6 +16,8 @@ char *_strcpy(char *_dest, char *_src);
 int _strlen(char *_s);
 int _strcmp(char *_s1, char *_s2);
 char *_strcat(char *_dest, char *_src);
+void exitShell(char *_cmd, char **_par);
+void printEnvironment(void);
 
 extern char **environ;
 
