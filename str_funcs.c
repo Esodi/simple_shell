@@ -107,3 +107,22 @@ char *_strdup(const char *_tr)
 		ret[l] = *--_tr;
 	return (ret);
 }
+
+/**
+ * _strchr - locates a character in a string
+ * @_s: the string to search
+ * @_c: the character to locate
+ * Return: a pointer to the first occurrence of @_c in @_s
+ * or NULL if not found
+ */
+
+char *_strchr(char *_s, int _c)
+{
+    while (*_s != (char)_c)
+    {
+        if (*_s == '\0')
+            return (NULL);
+        _s++;
+    }
+    return (_s);
+}

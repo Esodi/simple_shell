@@ -1,5 +1,13 @@
 #include "project.h"
 
+/**
+ * tokenizeInput - Tokenizes the input command string
+ * @_cmd: The input command string to tokenize
+ * @_l: Pointer to store the number of words in the command
+ *
+ * Returns: An array of strings containing the tokens
+ */
+
 char **tokenizeInput(char *_cmd, int *_l)
 {
 	int _i = 0;
@@ -25,6 +33,13 @@ char **tokenizeInput(char *_cmd, int *_l)
 	return (_par);
 }
 
+/**
+ * execute - Executes a command with the given parameters
+ * @_par: Array of strings containing the command and its arguments
+ * @command: The command to execute
+ * @env: Array of strings containing the environment variables
+ * @_cmd: The original input command string
+ */
 
 void execute(char **_par, char *command, char **env, char *_cmd)
 {
@@ -44,6 +59,12 @@ void execute(char **_par, char *command, char **env, char *_cmd)
 	free(_par);
 }
 
+/**
+ * searchAndExecute - Searches for and executes a command in the PATH
+ * @_par: Array of strings containing the command and its arguments
+ * @env: Array of strings containing the environment variables
+ * @_cmd: The original input command string
+ */
 
 void searchAndExecute(char **_par, char **env, char *_cmd)
 {
@@ -67,6 +88,11 @@ void searchAndExecute(char **_par, char **env, char *_cmd)
 	exit(1);
 }
 
+/**
+ * handleCommand - Handles the execution of a command
+ * @_cmd: The input command string
+ * @env: Array of strings containing the environment variables
+ */
 
 void handleCommand(char *_cmd, char **env)
 {
@@ -110,6 +136,12 @@ void handleCommand(char *_cmd, char **env)
 	free(_par);
 }
 
+/**
+ * main - Entry point of the program
+ *
+ * Returns: Always returns 0
+ */
+
 int main(void)
 {
 	char *_cmd = NULL;
@@ -133,4 +165,3 @@ int main(void)
 	free(_cmd);
 	return (0);
 }
-
