@@ -5,7 +5,7 @@
  * @_cmd: The input command string to tokenize
  * @_l: Pointer to store the number of words in the command
  *
- * Returns: An array of strings containing the tokens
+ * Return: An array of strings containing the tokens
  */
 
 char **tokenizeInput(char *_cmd, int *_l)
@@ -22,11 +22,11 @@ char **tokenizeInput(char *_cmd, int *_l)
 		return (NULL);
 	}
 
-	_tkn = strtok(_cmd, " ");
+	_tkn = _strtok(_cmd, " ");
 	while (_tkn != NULL)
 	{
 		_par[_i++] = _strdup(_tkn);
-		_tkn = strtok(NULL, " ");
+		_tkn = _strtok(NULL, " ");
 	}
 	_par[_i] = NULL;
 
@@ -69,7 +69,7 @@ void execute(char **_par, char *command, char **env, char *_cmd)
 void searchAndExecute(char **_par, char **env, char *_cmd)
 {
 	char *path = getenv("PATH");
-	char *token = strtok(path, ":");
+	char *token = _strtok(path, ":");
 	char cmd_path[1024];
 
 	while (token != NULL)
@@ -82,7 +82,7 @@ void searchAndExecute(char **_par, char **env, char *_cmd)
 			_par[0] = _strdup(cmd_path);
 			execute(_par, _par[0], env, _cmd);
 		}
-		token = strtok(NULL, ":");
+		token = _strtok(NULL, ":");
 	}
 	fprintf(stderr, "Command not found: %s\n", _par[0]);
 	exit(1);
@@ -108,9 +108,9 @@ void handleCommand(char *_cmd, char **env)
 
 	if (_par[0] != NULL)
 	{
-		if (strcmp(_par[0], "exit") == 0)
+		if (_strcmp(_par[0], "exit") == 0)
 			exitShell(_cmd, _par);
-		else if (strcmp(_par[0], "env") == 0)
+		else if (_strcmp(_par[0], "env") == 0)
 			printEnvironment();
 		_child = fork();
 		if (_child == -1)
@@ -120,7 +120,7 @@ void handleCommand(char *_cmd, char **env)
 		}
 		if (_child == 0)
 		{
-			if (strchr(_par[0], '/') != NULL)
+			if (_strchr(_par[0], '/') != NULL)
 			{
 				execute(_par, _par[0], env, _cmd);
 			}
@@ -139,7 +139,7 @@ void handleCommand(char *_cmd, char **env)
 /**
  * main - Entry point of the program
  *
- * Returns: Always returns 0
+ * Return: Always returns 0
  */
 
 int main(void)

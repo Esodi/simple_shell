@@ -5,7 +5,7 @@
  * @_cmd: The input string to count occurrences in
  * @_c: The character to count occurrences of
  *
- * Returns: The number of occurrences of @_c in @_cmd
+ * Return: The number of occurrences of @_c in @_cmd
  */
 
 int wordsno(char *_cmd, char _c)
@@ -60,3 +60,13 @@ void printEnvironment(void)
 		env++;
 	}
 }
+
+
+/**
+ * _getline - reads a line from the specified file descriptor.
+ * @line: A pointer to the buffer where the line will be stored.
+ * @size: The size of the buffer.
+ * @fd: The file descriptor to read from (e.g., STDIN_FILENO).
+ *
+ * Return: The number of characters read (including the newline character).
+ */
