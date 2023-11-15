@@ -53,7 +53,7 @@ void execute(char **_par, char *command, char **env, char *_cmd)
 	{
 		perror("execve");
 		free(_par);
-		exit(1);
+		exit(127);
 	}
 
 	free(_par);
@@ -71,6 +71,7 @@ void searchAndExecute(char **_par, char **env, char *_cmd)
 	char *path = getenv("PATH");
 	char *token = _strtok(path, ":");
 	char cmd_path[1024];
+	int found = 0;
 
 	while (token != NULL)
 	{
@@ -81,11 +82,18 @@ void searchAndExecute(char **_par, char **env, char *_cmd)
 		{
 			_par[0] = _strdup(cmd_path);
 			execute(_par, _par[0], env, _cmd);
+			found = 1;
+			exit(127);
 		}
+		else
+		    exit(127);
 		token = _strtok(NULL, ":");
 	}
-	/*fprintf(stderr, "Command not found: %s\n", _par[0]);*/
-	exit(1);
+	if (!found)
+	{
+		customErrorPrint(_par[0]);
+		exit(127);
+	}
 }
 
 /**
@@ -111,14 +119,14 @@ void handleCommand(char *_cmd, char **env)
 		if (_strcmp(_par[0], "exit") == 0)
 			exitShell(_cmd, _par);
 		else if (_strcmp(_par[0], "env") == 0)
-			printEnvironment();
+			printEnvironment(env);
 		else if (_strcmp(_par[0], "cd") == 0)
 			changeDirectory(_par);
 		_child = fork();
 		if (_child == -1)
 		{
 			perror("fork");
-			exit(1);
+			exit(127);
 		}
 		if (_child == 0)
 		{
@@ -130,7 +138,7 @@ void handleCommand(char *_cmd, char **env)
 			{
 				searchAndExecute(_par, env, _cmd);
 			}
-			exit(0);
+			exit(127);
 		}
 		else
 			waitpid(_child, &status, 0);
@@ -139,16 +147,20 @@ void handleCommand(char *_cmd, char **env)
 }
 
 /**
- * main - Entry point of the program
- *
- * Return: Always returns 0
+ * main - Entry point for the shell program.
+ * @argc: Number of arguments passed to the program.
+ * @argv: Array of strings containing the arguments passed to the program.
+ * @env: Array of strings containing the environment variables.
+ * Return: Exit status of the shell program.
  */
-
-int main(void)
+int main(int argc, char *argv[], char **env)
 {
 	char *_cmd = NULL;
 	size_t _len = 0;
 	ssize_t _r;
+
+	(void)argc;
+	(void)argv;
 
 	while (1)
 	{
@@ -159,7 +171,7 @@ int main(void)
 			break;
 		}
 		_cmd[_strlen(_cmd) - 1] = '\0';
-		handleCommand(_cmd, environ);
+		handleCommand(_cmd, env);
 	}
 
 

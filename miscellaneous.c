@@ -48,11 +48,11 @@ void exitShell(char *_cmd, char **_par)
 
 /**
  * printEnvironment - Prints the environment variables.
+ * @env: pointer to pointer.
  */
 
-void printEnvironment(void)
+void printEnvironment(char **env)
 {
-	char **env = environ;
 
 	while (*env != NULL)
 	{
