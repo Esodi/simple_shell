@@ -67,30 +67,23 @@ void printEnvironment(void)
  */
 void changeDirectory(char **_par)
 {
-	char *_new;
-	char *_old;
+	char *new_dir;
+	char *oldpwd;
+	char cwd[1024];
 
 	if (_par[1] == NULL || strcmp(_par[1], "~") == 0)
-	{
-		_new = getenv("HOME");
-	}
+		new_dir = getenv("HOME");
 	else if (strcmp(_par[1], "-") == 0)
 	{
-		_old = getenv("OLDPWD");
-		if (_old != NULL)
-		{
-			_new = strdup(_old);
-		}
+		oldpwd = getenv("OLDPWD");
+		if (oldpwd != NULL)
+			new_dir = strdup(oldpwd);
 		else
-		{
 			return;
-		}
 	}
 	else
-	{
-		_new = _par[1];
-	}
-	if (chdir(_new) != 0)
+		new_dir = _par[1];
+	if (chdir(new_dir) != 0)
 	{
 		perror("cd");
 		return;
@@ -102,9 +95,16 @@ void changeDirectory(char **_par)
 		return;
 	}
 
-	if (setenv("PWD", _new, 1) != 0)
+	if (setenv("PWD", new_dir, 1) != 0)
 	{
 		perror("setenv");
 		return;
+	}
+	if (_par[1] != NULL && strcmp(_par[1], "-") == 0)
+	{
+		if (getcwd(cwd, sizeof(cwd)) == NULL)
+			return;
+	show(cwd);
+	show("\n");
 	}
 }
