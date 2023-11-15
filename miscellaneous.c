@@ -71,13 +71,13 @@ void changeDirectory(char **_par)
 	char *oldpwd;
 	char cwd[1024];
 
-	if (_par[1] == NULL || strcmp(_par[1], "~") == 0)
+	if (_par[1] == NULL || _strcmp(_par[1], "~") == 0)
 		new_dir = getenv("HOME");
-	else if (strcmp(_par[1], "-") == 0)
+	else if (_strcmp(_par[1], "-") == 0)
 	{
 		oldpwd = getenv("OLDPWD");
 		if (oldpwd != NULL)
-			new_dir = strdup(oldpwd);
+			new_dir = _strdup(oldpwd);
 		else
 			return;
 	}
@@ -100,7 +100,7 @@ void changeDirectory(char **_par)
 		perror("setenv");
 		return;
 	}
-	if (_par[1] != NULL && strcmp(_par[1], "-") == 0)
+	if (_par[1] != NULL && _strcmp(_par[1], "-") == 0)
 	{
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
 			return;
