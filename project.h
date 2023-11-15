@@ -23,9 +23,11 @@ size_t _strcspn(char *_str, char *_reject);
 size_t _strspn(char *_str, char *_accept);
 char *_strtok(char *_str, char *_delimiters);
 ssize_t own_getline(char **line, size_t *size, int fd);
+void changeDirectory(char **_par);
 
 extern char **environ;
 
 #define INITIAL_BUFFER_SIZE 128
+#define DELIM " \t\r\n\a\"'|"
 
 #endif /*_PROJECT_H*/

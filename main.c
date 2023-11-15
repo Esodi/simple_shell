@@ -22,11 +22,11 @@ char **tokenizeInput(char *_cmd, int *_l)
 		return (NULL);
 	}
 
-	_tkn = _strtok(_cmd, " ");
+	_tkn = _strtok(_cmd, DELIM);
 	while (_tkn != NULL)
 	{
 		_par[_i++] = _strdup(_tkn);
-		_tkn = _strtok(NULL, " ");
+		_tkn = _strtok(NULL, DELIM);
 	}
 	_par[_i] = NULL;
 
@@ -84,7 +84,7 @@ void searchAndExecute(char **_par, char **env, char *_cmd)
 		}
 		token = _strtok(NULL, ":");
 	}
-	fprintf(stderr, "Command not found: %s\n", _par[0]);
+	/*fprintf(stderr, "Command not found: %s\n", _par[0]);*/
 	exit(1);
 }
 
@@ -112,6 +112,8 @@ void handleCommand(char *_cmd, char **env)
 			exitShell(_cmd, _par);
 		else if (_strcmp(_par[0], "env") == 0)
 			printEnvironment();
+		else if (_strcmp(_par[0], "cd") == 0)
+			changeDirectory(_par);
 		_child = fork();
 		if (_child == -1)
 		{
@@ -154,7 +156,6 @@ int main(void)
 		_r = getline(&_cmd, &_len, stdin);
 		if (_r == -1)
 		{
-			perror("getline");
 			break;
 		}
 		_cmd[_strlen(_cmd) - 1] = '\0';

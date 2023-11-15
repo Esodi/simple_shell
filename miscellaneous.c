@@ -29,7 +29,7 @@ int wordsno(char *_cmd, char _c)
 
 void dollar(void)
 {
-	show(" # ");
+	show("");
 }
 
 /**
@@ -61,12 +61,50 @@ void printEnvironment(void)
 	}
 }
 
-
 /**
- * _getline - reads a line from the specified file descriptor.
- * @line: A pointer to the buffer where the line will be stored.
- * @size: The size of the buffer.
- * @fd: The file descriptor to read from (e.g., STDIN_FILENO).
- *
- * Return: The number of characters read (including the newline character).
+ * changeDirectory - Change the current working directory.
+ * @_par: The array of strings containing the command and arguments.
  */
+void changeDirectory(char **_par)
+{
+	char *_new;
+	char *_old;
+
+	if (_par[1] == NULL || strcmp(_par[1], "~") == 0)
+	{
+		_new = getenv("HOME");
+	}
+	else if (strcmp(_par[1], "-") == 0)
+	{
+		_old = getenv("OLDPWD");
+		if (_old != NULL)
+		{
+			_new = strdup(_old);
+		}
+		else
+		{
+			return;
+		}
+	}
+	else
+	{
+		_new = _par[1];
+	}
+	if (chdir(_new) != 0)
+	{
+		perror("cd");
+		return;
+	}
+
+	if (setenv("OLDPWD", getenv("PWD"), 1) != 0)
+	{
+		perror("setenv");
+		return;
+	}
+
+	if (setenv("PWD", _new, 1) != 0)
+	{
+		perror("setenv");
+		return;
+	}
+}
