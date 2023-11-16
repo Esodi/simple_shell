@@ -14,3 +14,42 @@ void customErrorPrint(char *command)
 	write(STDERR_FILENO, error_msg, _strlen(error_msg));
 	exit(127);
 }
+
+/**
+ * freeTokenizedInput - Frees memory allocated for an array of strings.
+ * @_par: Array of strings to be deallocated.
+ * @size: Number of elements in the array.
+ */
+void freeTokenizedInput(char **_par, int size)
+{
+	int i;
+
+	for (i = 0; i < size; ++i)
+	{
+		free(_par[i]);
+	}
+	free(_par);
+}
+
+/**
+ * handleComments - Handles comments in the input command string.
+ * @_cmd: The input command string to process.
+ */
+void handleComments(char *_cmd)
+{
+	int i;
+
+	for (i = 0; _cmd[i] != '\0'; ++i)
+	{
+		if (_cmd[i] == '#')
+		{
+			while (_cmd[i] != '\0' && _cmd[i] != '\n')
+			{
+				_cmd[i++] = '\n';
+			}
+			_cmd[i] = '\0';
+			break;
+		}
+	}
+}
+

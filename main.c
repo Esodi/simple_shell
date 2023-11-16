@@ -18,7 +18,7 @@ char **tokenizeInput(char *_cmd, int *_l)
 	_par = (char **)malloc(sizeof(char *) * (*_l + 1));
 	if (_par == NULL)
 	{
-		perror("malloc");
+		free(_par);
 		return (NULL);
 	}
 
@@ -64,9 +64,10 @@ void execute(char **_par, char *command, char **env, char *_cmd)
  * @_par: Array of strings containing the command and its arguments
  * @env: Array of strings containing the environment variables
  * @_cmd: The original input command string
+ * @_l: integer
  */
 
-void searchAndExecute(char **_par, char **env, char *_cmd)
+void searchAndExecute(char **_par, char **env, char *_cmd, int _l)
 {
 	char *path = getenv("PATH");
 	char *token = _strtok(path, ":");
@@ -83,14 +84,13 @@ void searchAndExecute(char **_par, char **env, char *_cmd)
 			_par[0] = _strdup(cmd_path);
 			execute(_par, _par[0], env, _cmd);
 			found = 1;
-			exit(127);
+			break;
 		}
-		else
-		    exit(127);
 		token = _strtok(NULL, ":");
 	}
 	if (!found)
 	{
+		freeTokenizedInput(_par, _l);
 		customErrorPrint(_par[0]);
 		exit(127);
 	}
@@ -136,14 +136,14 @@ void handleCommand(char *_cmd, char **env)
 			}
 			else
 			{
-				searchAndExecute(_par, env, _cmd);
+				searchAndExecute(_par, env, _cmd, _l);
 			}
 			exit(127);
 		}
 		else
 			waitpid(_child, &status, 0);
 	}
-	free(_par);
+	freeTokenizedInput(_par, _l);
 }
 
 /**
@@ -171,7 +171,10 @@ int main(int argc, char *argv[], char **env)
 			break;
 		}
 		_cmd[_strlen(_cmd) - 1] = '\0';
+		handleComments(_cmd);
 		handleCommand(_cmd, env);
+		free(_cmd);
+		_cmd = NULL;
 	}
 
 

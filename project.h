@@ -25,6 +25,8 @@ char *_strtok(char *_str, char *_delimiters);
 ssize_t own_getline(char **line, size_t *size, int fd);
 void changeDirectory(char **_par);
 void customErrorPrint(char *command);
+void freeTokenizedInput(char **_par, int size);
+void handleComments(char *_cmd);
 
 /*extern char **environ;*/
 
