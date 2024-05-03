@@ -25,17 +25,13 @@ char *_strtok(char *_str, char *_delimiters);
 ssize_t own_getline(char **line, size_t *size, int fd);
 void changeDirectory(char **_par);
 void customErrorPrint(char *command);
-<<<<<<< HEAD
 ssize_t bufferAndReadInput(info_t *info, char **buf, size_t *len);
 ssize_t getUserInput(info_t *info);
 ssize_t readBuffer(info_t *info, char *buf, size_t *i);
 int getNextLine(info_t *info, char **ptr, size_t *length);
 void blockCtrlC(__attribute__((unused)) int sig_num);
-=======
 void freeTokenizedInput(char **_par, int size);
 void handleComments(char *_cmd);
-
->>>>>>> f97b7d7018ea6c5307c7b11982877c6da22eb470
 /*extern char **environ;*/
 
 #define INITIAL_BUFFER_SIZE 128
