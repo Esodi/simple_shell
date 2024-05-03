@@ -25,10 +25,10 @@ char *_strtok(char *_str, char *_delimiters);
 ssize_t own_getline(char **line, size_t *size, int fd);
 void changeDirectory(char **_par);
 void customErrorPrint(char *command);
-ssize_t bufferAndReadInput(info_t *info, char **buf, size_t *len);
+/*ssize_t bufferAndReadInput(info_t *info, char **buf, size_t *len);
 ssize_t getUserInput(info_t *info);
 ssize_t readBuffer(info_t *info, char *buf, size_t *i);
-int getNextLine(info_t *info, char **ptr, size_t *length);
+int getNextLine(info_t *info, char **ptr, size_t *length);*/
 void blockCtrlC(__attribute__((unused)) int sig_num);
 void freeTokenizedInput(char **_par, int size);
 void handleComments(char *_cmd);
